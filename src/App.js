@@ -1,26 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react"
+import Register from "./components/Auth/Signup"
+import Login from "./components/Auth/Login"
+import Home from "./components/Apps/Home"
+import Forgotpassword from "./components/Auth/Forgotpassword"
+import Resetpassword from "./components/Auth/Resetpassword"
+import ActivateRegisteration from "./components/Auth/Activate"
+import Room from "./components/Apps/Room"
+import CreateRoom from "./components/Apps/CreateRoom"
+import EnterRoom from "./components/Apps/EnterRoom"
+import WithLogin from "./components/HOC/WithLogin"
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
+
+const CreateRoomWithLogin = WithLogin(CreateRoom)
+const EnterRoomWithLogin = WithLogin(EnterRoom)
+//const RoomWithLogin = WithLogin(Room)
+const HomeWithLogin = WithLogin(Home)
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Router>
+      <Switch>
+        <Route path="/login" component={Login} />
+        <Route path="/register" component={Register} />
+        <Route path="/forgot-password" component={Forgotpassword} />
+        <Route path="/reset-password/:id" component={Resetpassword} />
+        <Route path="/activate/:id" component={ActivateRegisteration} />
+        <Route path="/create-room" component={CreateRoomWithLogin} />
+        <Route path="/enter-room" component={EnterRoomWithLogin} />
+        <Route path="/room/:roomID/:accessCode/:userName" component={Room} />
+        <Route path="/" component={HomeWithLogin} />
+      </Switch>
+    </Router>
+  )
 }
 
-export default App;
+export default App
