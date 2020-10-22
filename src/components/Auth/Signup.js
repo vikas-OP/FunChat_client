@@ -1,7 +1,10 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
+import AlertDismissable from "../common/Dismissable"
+import Header from "../common/Header"
 import { useHistory } from "react-router-dom"
+import checkLogin from "../../common/checkLogin"
 
-const Signup = (props) => {
+const Signup = () => {
   const [user, setUser] = useState({
     userName: "",
     email: "",
@@ -9,6 +12,14 @@ const Signup = (props) => {
   })
   const [userMessage, setUserMessage] = useState("")
   const history = useHistory()
+
+  useEffect(() => {
+    checkLogin().then((user) => {
+      if (user) {
+        history.push("/")
+      }
+    })
+  }, [history])
 
   const setDetails = (e) => {
     const name = e.target.name
@@ -49,49 +60,68 @@ const Signup = (props) => {
   }
 
   return (
-    <div className="main-contain bg-dark d-flex flex-column text-white container-fluid ">
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="userName">User name</label>
-        <input
-          type="text"
-          id="userName"
-          name="userName"
-          value={user.userName}
-          onChange={setDetails}
-          required
-          className="form-control w-50 mb-2"
-        />
-        <label htmlFor="email">Email</label>
-        <input
-          type="text"
-          id="email"
-          name="email"
-          value={user.email}
-          onChange={setDetails}
-          required
-          className="form-control w-50 mb-2"
-        />
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          value={user.password}
-          onChange={setDetails}
-          required
-          className="form-control w-50 mb-2"
-        />
-        <button type="submit" className="btn btn-success my-3">
-          Register
-        </button>
-      </form>
-      <div>
-        <h6>Login user</h6>
-        <button className="btn btn-primary" onClick={goToLoginPage}>
-          Login
-        </button>
+    <div
+      className="container-fluid text-white vh-100"
+      style={{ background: "#1d3557" }}
+    >
+      <Header />
+      <div className="container">
+        <div className="row h-100">
+          <div className="col-md-8 col-12 d-flex flex-column h-100 justify-content-center">
+            <form onSubmit={handleSubmit}>
+              <input
+                type="text"
+                name="userName"
+                placeholder="username"
+                value={user.userName}
+                onChange={setDetails}
+                required
+                className="form-control w-90 w-md-50 mb-2"
+              />
+              <input
+                type="text"
+                name="email"
+                value={user.email}
+                onChange={setDetails}
+                placeholder="email"
+                required
+                className="form-control w-md-50 w-90 mb-2"
+              />
+              <input
+                type="password"
+                name="password"
+                placeholder="password"
+                value={user.password}
+                onChange={setDetails}
+                required
+                className="form-control w-md-50 w-90 mb-2"
+              />
+              <button type="submit" className="btn btn-success my-3">
+                Register
+              </button>
+            </form>
+            <div>
+              <h6>
+                Login user &nbsp; &nbsp;{" "}
+                <button className="btn btn-primary" onClick={goToLoginPage}>
+                  Login
+                </button>
+              </h6>
+            </div>
+          </div>
+          <div className="col-md-4 col-12 order-first order-md-last d-flex justify-content-center">
+            {userMessage ? (
+              <AlertDismissable
+                heading="Error"
+                text={userMessage}
+                handleClose={() => setUserMessage("")}
+                background="danger"
+                scroll={() => null}
+              />
+            ) : null}
+          </div>
+        </div>
       </div>
-      {userMessage ? <h3>{userMessage}</h3> : null}
     </div>
   )
 }

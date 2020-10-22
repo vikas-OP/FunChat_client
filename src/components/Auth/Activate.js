@@ -1,10 +1,21 @@
 import React, { useState, useEffect } from "react"
 import { useParams, useHistory } from "react-router-dom"
+import Header from "../common/Header"
+import AlertDismissable from "../common/Dismissable"
+import checkLogin from "../../common/checkLogin"
 
 const Activate = () => {
   const { id } = useParams()
   const history = useHistory()
-  const [userMsg, setUserMsg] = useState("")
+  const [userMessage, setUserMessage] = useState("")
+
+  useEffect(() => {
+    checkLogin().then((user) => {
+      if (user) {
+        history.push("/")
+      }
+    })
+  }, [history])
 
   useEffect(() => {
     const activateAccount = async (activationLink) => {
@@ -23,12 +34,30 @@ const Activate = () => {
         history.push("/login")
         return
       }
-      setUserMsg(response.message)
+      setUserMessage(response.message)
     }
     activateAccount(id)
   }, [id, history])
 
-  return <div>{userMsg ? <h3>{userMsg}</h3> : null}</div>
+  return (
+    <div
+      className="container-fluid text-white vh-100"
+      style={{ background: "#1d3557" }}
+    >
+      <Header />
+      <div className="container">
+        {userMessage ? (
+          <AlertDismissable
+            heading="Error"
+            text={userMessage}
+            handleClose={() => setUserMessage("")}
+            background="danger"
+            scroll={() => null}
+          />
+        ) : null}
+      </div>
+    </div>
+  )
 }
 
 export default Activate

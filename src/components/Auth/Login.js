@@ -1,13 +1,24 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { useHistory } from "react-router-dom"
+import AlertDismissable from "../common/Dismissable"
+import Header from "../common/Header"
+import checkLogin from "../../common/checkLogin"
 
-const Login = (props) => {
+const Login = () => {
   const [user, setUser] = useState({
     email: "",
     password: "",
   })
   const [userMessage, setUserMessage] = useState("")
   const history = useHistory()
+
+  useEffect(() => {
+    checkLogin().then((user) => {
+      if (user) {
+        history.push("/")
+      }
+    })
+  }, [history])
 
   const setDetails = (e) => {
     const name = e.target.name
@@ -56,44 +67,70 @@ const Login = (props) => {
   }
 
   return (
-    <div className="bg-dark d-flex flex-column container-fluid text-white main-contain">
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="email">Email</label>
-        <input
-          type="text"
-          id="email"
-          name="email"
-          value={user.email}
-          onChange={setDetails}
-          required
-          className="form-control w-50 mb-2"
-        />
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          name="password"
-          id="password"
-          value={user.password}
-          onChange={setDetails}
-          required
-          className="form-control w-50 mb-3"
-        />
-        <button className="btn btn-primary mb-3" type="submit">
-          Login
-        </button>
-      </form>
-      {userMessage ? <h3>{userMessage}</h3> : null}
-      <div>
-        <h6>New user? </h6>
-        <button onClick={goToRegisterPage} className="btn btn-success mb-3">
-          Register
-        </button>
-      </div>
-      <div>
-        <h6>Forgot Password? </h6>
-        <button className="btn btn-danger" onClick={handleForgotPassword}>
-          Forgot Password
-        </button>
+    <div
+      className="container-fluid text-white vh-100"
+      style={{ background: "#1d3557" }}
+    >
+      <Header />
+      <div className="container">
+        <div className="row h-100">
+          <div className="col-md-8 col-12 d-flex flex-column h-100 justify-content-center">
+            <form onSubmit={handleSubmit}>
+              <input
+                type="text"
+                name="email"
+                value={user.email}
+                onChange={setDetails}
+                placeholder="email"
+                required
+                className="form-control w-90 w-md-50 mb-2"
+              />
+              <input
+                type="password"
+                name="password"
+                placeholder="password"
+                value={user.password}
+                onChange={setDetails}
+                required
+                className="form-control w-90 w-md-50 mb-3"
+              />
+              <button className="btn btn-primary mb-3" type="submit">
+                Login
+              </button>
+            </form>
+            <h6 className="mb-3">
+              New user? &nbsp; &nbsp;
+              <button
+                onClick={goToRegisterPage}
+                className="btn btn-success btn-sm"
+              >
+                Register
+              </button>
+            </h6>
+            <div>
+              <h6 className="mb-3">
+                Forgot Password? &nbsp; &nbsp;
+                <button
+                  className="btn btn-danger btn-sm mt-sm-0 mt-3"
+                  onClick={handleForgotPassword}
+                >
+                  Forgot Password
+                </button>
+              </h6>
+            </div>
+          </div>
+          <div className="col-md-4 col-12 order-first order-md-last d-flex justify-content-center">
+            {userMessage ? (
+              <AlertDismissable
+                heading="Error"
+                text={userMessage}
+                handleClose={() => setUserMessage("")}
+                background="danger"
+                scroll={() => null}
+              />
+            ) : null}
+          </div>
+        </div>
       </div>
     </div>
   )

@@ -1,8 +1,21 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
+import { useHistory } from "react-router-dom"
+import Header from "../common/Header"
+import checkLogin from "../../common/checkLogin"
+import AlertDismissable from "../common/Dismissable"
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("")
   const [userMessage, setUserMessage] = useState("")
+  const history = useHistory()
+
+  useEffect(() => {
+    checkLogin().then((user) => {
+      if (user) {
+        history.push("/")
+      }
+    })
+  }, [history])
 
   const handleForgotPassword = async () => {
     const data = {
@@ -26,24 +39,41 @@ const ForgotPassword = () => {
   }
 
   return (
-    <div className="main-contain bg-dark d-flex flex-column text-white container-fluid">
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="email" className="mt-3">
-          Email
-        </label>
-        <input
-          type="text"
-          id="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          className="form-control w-50 mb-4"
-        />
-        <button type="submit" className="btn btn-danger">
-          Submit
-        </button>
-      </form>
-      {userMessage ? <h3>{userMessage}</h3> : null}
+    <div
+      className="container-fluid text-white vh-100"
+      style={{ background: "#1d3557" }}
+    >
+      <Header />
+      <div className="container">
+        <div className="row h-100">
+          <div className="col-md-8 col-12 d-flex flex-column h-100 justify-content-center">
+            <form onSubmit={handleSubmit}>
+              <input
+                type="text"
+                placeholder="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="form-control w-90 w-md-50 mb-4"
+              />
+              <button type="submit" className="btn btn-danger">
+                Submit
+              </button>
+            </form>
+          </div>
+          <div className="col-md-4 col-12 order-first order-md-last d-flex justify-content-center">
+            {userMessage ? (
+              <AlertDismissable
+                heading="Error"
+                text={userMessage}
+                handleClose={() => setUserMessage("")}
+                background="danger"
+                scroll={() => null}
+              />
+            ) : null}
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
