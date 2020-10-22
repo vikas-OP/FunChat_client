@@ -13,7 +13,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 
 const CreateRoomWithLogin = WithLogin(CreateRoom)
 const EnterRoomWithLogin = WithLogin(EnterRoom)
-//const RoomWithLogin = WithLogin(Room)
+const RoomWithLogin = WithLogin(Room)
 const HomeWithLogin = WithLogin(Home)
 
 function App() {
@@ -27,7 +27,7 @@ function App() {
         <Route path="/activate/:id" component={ActivateRegisteration} />
         <Route path="/create-room" component={CreateRoomWithLogin} />
         <Route path="/enter-room" component={EnterRoomWithLogin} />
-        <Route path="/room/:roomID/:accessCode/:userName" component={Room} />
+        <Route path="/room/:roomID/:accessCode" component={RoomWithLogin} />
         <Route path="/" component={HomeWithLogin} />
       </Switch>
     </Router>
