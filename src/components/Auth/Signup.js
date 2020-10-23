@@ -112,10 +112,10 @@ const Signup = () => {
           <div className="col-md-4 col-12 order-first order-md-last d-flex justify-content-center">
             {userMessage ? (
               <AlertDismissable
-                heading="Error"
+                heading="Message"
                 text={userMessage}
                 handleClose={() => setUserMessage("")}
-                background="danger"
+                background="success"
                 scroll={() => null}
               />
             ) : null}
