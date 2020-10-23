@@ -6,7 +6,6 @@ import {
   faPaperPlane,
 } from "@fortawesome/free-solid-svg-icons"
 import AlertDismissable from "../common/Dismissable"
-import "./room.css"
 import { useParams, useHistory } from "react-router-dom"
 import io from "socket.io-client"
 
