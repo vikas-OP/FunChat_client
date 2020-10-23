@@ -56,6 +56,7 @@ const CreateRoom = ({ logOut }) => {
                 placeholder="room name"
                 value={roomDetails.name}
                 onChange={setDetails}
+                required
               />
               <input
                 type="text"
@@ -64,6 +65,7 @@ const CreateRoom = ({ logOut }) => {
                 placeholder="access code"
                 value={roomDetails.accessCode}
                 onChange={setDetails}
+                required
               />
               <button type="submit" className="btn btn-primary">
                 Create Room

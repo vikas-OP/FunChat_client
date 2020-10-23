@@ -53,6 +53,7 @@ const EnterRoom = ({ logOut }) => {
                 className="form-control my-3 w-90 w-md-50"
                 value={roomDetails.roomID}
                 onChange={setDetails}
+                required
               />
 
               <input
@@ -62,6 +63,7 @@ const EnterRoom = ({ logOut }) => {
                 className="form-control my-3 w-90 w-md-50"
                 value={roomDetails.accessCode}
                 onChange={setDetails}
+                required
               />
               <button type="submit" className="btn btn-primary">
                 Enter
