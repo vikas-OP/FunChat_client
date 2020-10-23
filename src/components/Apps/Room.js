@@ -12,7 +12,7 @@ import io from "socket.io-client"
 
 let socket
 
-const Room = () => {
+const Room = ({ user }) => {
   const [message, setMessage] = useState("")
   const [roomName, setRoomName] = useState("")
   const [users, setUsers] = useState([])
@@ -20,19 +20,17 @@ const Room = () => {
   const [showRoomDetails, setShowRoomDetails] = useState(false)
   const inputRef = useRef()
   const scrollRef = useRef()
-  const { roomID, accessCode, userName } = useParams()
+  const { roomID, accessCode } = useParams()
   const history = useHistory()
-
-  const showMessageInChatBox = (messageDetails) => {
-    setAllMessages((allMessages) => [...allMessages, messageDetails])
-  }
-
-  const scrollToBottom = () => {
-    scrollRef.current.scrollIntoView({ behaviour: "smooth" })
-  }
+  const userName = user.userName
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/rooms/${roomID}`)
+    fetch(`http://localhost:5000/api/rooms/${roomID}`, {
+      method: "GET",
+      headers: {
+        Authorization: localStorage.getItem("access-token"),
+      },
+    })
       .then((res) => res.json())
       .then((res) => {
         if (res.stat === "S") {
@@ -57,7 +55,15 @@ const Room = () => {
     return () => {
       socket.disconnect()
     }
-  }, [roomID, userName, accessCode])
+  }, [userName, accessCode, roomID, history])
+
+  const showMessageInChatBox = (messageDetails) => {
+    setAllMessages((allMessages) => [...allMessages, messageDetails])
+  }
+
+  const scrollToBottom = () => {
+    scrollRef.current.scrollIntoView({ behaviour: "smooth" })
+  }
 
   const sendMessage = (e) => {
     e.preventDefault()
@@ -86,9 +92,7 @@ const Room = () => {
   return (
     <div className="chat-container">
       <header className="chat-header">
-        <h4>
-          <i className="fas fa-smile"></i> FunChat
-        </h4>
+        <h4>FunChat</h4>
         <div>
           <button
             onClick={() => history.push("/")}

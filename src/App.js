@@ -8,6 +8,8 @@ import ActivateRegisteration from "./components/Auth/Activate"
 import Room from "./components/Apps/Room"
 import CreateRoom from "./components/Apps/CreateRoom"
 import EnterRoom from "./components/Apps/EnterRoom"
+import EditUser from "./components/Users/EditUser"
+import EditRoom from "./components/Rooms/EditRoom"
 import WithLogin from "./components/HOC/WithLogin"
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 
@@ -15,6 +17,8 @@ const CreateRoomWithLogin = WithLogin(CreateRoom)
 const EnterRoomWithLogin = WithLogin(EnterRoom)
 const RoomWithLogin = WithLogin(Room)
 const HomeWithLogin = WithLogin(Home)
+const EditUserWithLogin = WithLogin(EditUser)
+const EditRoomWithLogin = WithLogin(EditRoom)
 
 function App() {
   return (
@@ -26,7 +30,10 @@ function App() {
         <Route path="/reset-password/:id" component={Resetpassword} />
         <Route path="/activate/:id" component={ActivateRegisteration} />
         <Route path="/create-room" component={CreateRoomWithLogin} />
+        <Route path="/enter-room/:id" component={EnterRoomWithLogin} />
         <Route path="/enter-room" component={EnterRoomWithLogin} />
+        <Route path="/edit-user" component={EditUserWithLogin} />
+        <Route path="/edit-room/:id" component={EditRoomWithLogin} />
         <Route path="/room/:roomID/:accessCode" component={RoomWithLogin} />
         <Route path="/" component={HomeWithLogin} />
       </Switch>

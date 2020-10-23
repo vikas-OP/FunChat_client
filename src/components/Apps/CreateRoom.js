@@ -1,7 +1,8 @@
 import React, { useState } from "react"
 import { useHistory } from "react-router-dom"
+import Header from "../common/Header"
 
-const CreateRoom = ({ user }) => {
+const CreateRoom = ({ logOut }) => {
   const [roomDetails, setRoomDetails] = useState({
     name: "",
     accessCode: "",
@@ -32,34 +33,49 @@ const CreateRoom = ({ user }) => {
     })
     response = await response.json()
     if (response.stat === "S") {
-      history.push(
-        `/room/${response.room.roomID}/${response.room.accessCode}/${user.userName}`
-      )
+      history.push(`/room/${response.room.roomID}/${response.room.accessCode}`)
     }
   }
   return (
-    <div>
-      <div>Hi {user.userName}</div>
-      <div className="bg-dark text-light">
-        <form onSubmit={createRoom}>
-          <input
-            type="text"
-            className="form-control my-2"
-            name="name"
-            value={roomDetails.name}
-            onChange={setDetails}
-          />
-          <input
-            type="text"
-            className="form-control my-2"
-            name="accessCode"
-            value={roomDetails.accessCode}
-            onChange={setDetails}
-          />
-          <button type="submit" className="btn btn-primary">
-            Create Room
-          </button>
-        </form>
+    <div
+      className="container-fluid text-white vh-100"
+      style={{ background: "#1d3557" }}
+    >
+      <Header />
+      <div className="container">
+        <div className="row h-100">
+          <div className="col-md-8 col-12 d-flex flex-column h-100 justify-content-center">
+            <form onSubmit={createRoom}>
+              <input
+                type="text"
+                className="form-control my-3 w-90 w-md-50"
+                name="name"
+                placeholder="room name"
+                value={roomDetails.name}
+                onChange={setDetails}
+              />
+              <input
+                type="text"
+                className="form-control my-3 w-90 w-md-50"
+                name="accessCode"
+                placeholder="access code"
+                value={roomDetails.accessCode}
+                onChange={setDetails}
+              />
+              <button type="submit" className="btn btn-primary">
+                Create Room
+              </button>
+            </form>
+
+            <button
+              onClick={logOut}
+              className="btn btn-danger my-3"
+              style={{ width: "17%" }}
+            >
+              logout
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   )

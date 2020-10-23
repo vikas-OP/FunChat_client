@@ -1,11 +1,24 @@
-import React, { useState } from "react"
-import { useHistory } from "react-router-dom"
-const EnterRoom = ({ user }) => {
+import React, { useState, useEffect } from "react"
+import { useHistory, useParams } from "react-router-dom"
+import Header from "../common/Header"
+
+const EnterRoom = ({ logOut }) => {
   const [roomDetails, setRoomDetails] = useState({
     roomID: "",
     accessCode: "",
   })
+  const { id } = useParams()
   const history = useHistory()
+
+  useEffect(() => {
+    if (id) {
+      setRoomDetails({
+        ...roomDetails,
+        roomID: id,
+      })
+    }
+    // eslint-disable-next-line
+  }, [])
 
   const setDetails = (e) => {
     const name = e.target.name
@@ -20,34 +33,50 @@ const EnterRoom = ({ user }) => {
 
   const enterRoom = async (e) => {
     e.preventDefault()
-    history.push(
-      `/room/${roomDetails.roomID}/${roomDetails.accessCode}/${user.userName}`
-    )
+    history.push(`/room/${roomDetails.roomID}/${roomDetails.accessCode}`)
   }
 
   return (
-    <div>
-      <form onSubmit={enterRoom}>
-        <input
-          type="text"
-          placeholder="room id"
-          name="roomID"
-          value={roomDetails.roomID}
-          onChange={setDetails}
-        />
-        <br />
-        <input
-          type="text"
-          placeholder="access code"
-          name="accessCode"
-          value={roomDetails.accessCode}
-          onChange={setDetails}
-        />
-        <br />
-        <button type="submit" className="btn btn-primary">
-          Enter
-        </button>
-      </form>
+    <div
+      className="container-fluid text-white vh-100"
+      style={{ background: "#1d3557" }}
+    >
+      <Header />
+      <div className="container">
+        <div className="row h-100">
+          <div className="col-md-8 col-12 d-flex flex-column h-100 justify-content-center">
+            <form onSubmit={enterRoom}>
+              <input
+                type="text"
+                placeholder="room ID"
+                name="roomID"
+                className="form-control my-3 w-90 w-md-50"
+                value={roomDetails.roomID}
+                onChange={setDetails}
+              />
+
+              <input
+                type="text"
+                placeholder="access code"
+                name="accessCode"
+                className="form-control my-3 w-90 w-md-50"
+                value={roomDetails.accessCode}
+                onChange={setDetails}
+              />
+              <button type="submit" className="btn btn-primary">
+                Enter
+              </button>
+            </form>
+            <button
+              onClick={logOut}
+              className="btn btn-danger my-4"
+              style={{ width: "17%" }}
+            >
+              logout
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
