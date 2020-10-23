@@ -9,7 +9,7 @@ const Home = ({ user, logOut }) => {
   const history = useHistory()
 
   const getRooms = () => {
-    fetch("http://localhost:5000/api/users/rooms", {
+    fetch("https://funchat-vikas.herokuapp.com/api/users/rooms", {
       method: "GET",
       headers: {
         Authorization: localStorage.getItem("access-token"),
@@ -24,12 +24,15 @@ const Home = ({ user, logOut }) => {
   }
 
   const deleteRoom = async (id) => {
-    let res = await fetch(`http://localhost:5000/api/rooms/${id}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: localStorage.getItem("access-token"),
-      },
-    })
+    let res = await fetch(
+      `https://funchat-vikas.herokuapp.com/api/rooms/${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: localStorage.getItem("access-token"),
+        },
+      }
+    )
     res = await res.json()
     if (res.stat === "S") {
       getRooms()

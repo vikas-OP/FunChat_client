@@ -22,13 +22,16 @@ const ForgotPassword = () => {
       email,
     }
     setEmail("")
-    let response = await fetch("http://localhost:5000/forgot-password", {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    let response = await fetch(
+      "https://funchat-vikas.herokuapp.com/forgot-password",
+      {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
     response = await response.json()
     setUserMessage(response.message)
   }

@@ -39,7 +39,7 @@ const Signup = () => {
       email: "",
       password: "",
     })
-    let response = await fetch("http://localhost:5000/register", {
+    let response = await fetch("https://funchat-vikas.herokuapp.com/register", {
       method: "POST",
       body: JSON.stringify(data),
       headers: {

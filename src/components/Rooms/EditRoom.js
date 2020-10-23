@@ -12,12 +12,15 @@ const EditRoom = ({ logOut }) => {
 
   useEffect(() => {
     const getRoomDetails = async (id) => {
-      let response = await fetch(`http://localhost:5000/api/rooms/${id}`, {
-        method: "GET",
-        headers: {
-          Authorization: localStorage.getItem("access-token"),
-        },
-      })
+      let response = await fetch(
+        `https://funchat-vikas.herokuapp.com/api/rooms/${id}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: localStorage.getItem("access-token"),
+          },
+        }
+      )
       response = await response.json()
       console.log(response)
       if (response.stat === "S") {
@@ -35,14 +38,17 @@ const EditRoom = ({ logOut }) => {
       name: roomName,
       accessCode,
     }
-    let response = await fetch(`http://localhost:5000/api/rooms/${id}`, {
-      method: "PUT",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: localStorage.getItem("access-token"),
-      },
-    })
+    let response = await fetch(
+      `https://funchat-vikas.herokuapp.com/api/rooms/${id}`,
+      {
+        method: "PUT",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: localStorage.getItem("access-token"),
+        },
+      }
+    )
     response = await response.json()
     setUserMessage(response.message)
   }

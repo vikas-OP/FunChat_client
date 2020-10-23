@@ -15,6 +15,7 @@ let socket
 const Room = ({ user }) => {
   const [message, setMessage] = useState("")
   const [roomName, setRoomName] = useState("")
+  const [userMessage, setUserMessage] = useState("")
   const [users, setUsers] = useState([])
   const [allMessages, setAllMessages] = useState([])
   const [showRoomDetails, setShowRoomDetails] = useState(false)
@@ -25,7 +26,7 @@ const Room = ({ user }) => {
   const userName = user.userName
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/rooms/${roomID}`, {
+    fetch(`https://funchat-vikas.herokuapp.com/api/rooms/${roomID}`, {
       method: "GET",
       headers: {
         Authorization: localStorage.getItem("access-token"),
@@ -37,9 +38,9 @@ const Room = ({ user }) => {
           setRoomName(res.room.name)
           return
         }
-        alert(res.message)
+        setUserMessage(res.message)
       })
-    socket = io("http://localhost:5000", {
+    socket = io("https://funchat-vikas.herokuapp.com", {
       query: { userName, roomID, accessCode },
     })
     socket.emit("join_room", roomID)
@@ -49,7 +50,7 @@ const Room = ({ user }) => {
       messageDetails.users && setUsers(messageDetails.users)
     })
     socket.on("error", (err) => {
-      alert(err)
+      setUserMessage(err)
     })
 
     return () => {
@@ -89,7 +90,20 @@ const Room = ({ user }) => {
     )
   }
 
-  return (
+  return userMessage ? (
+    <div>
+      <AlertDismissable
+        background="danger"
+        scroll={() => null}
+        handleClose={() => setUserMessage("")}
+        heading="Error"
+        text={userMessage}
+      />
+      <button className="btn btn-primary" onClick={() => history.push("/home")}>
+        Home
+      </button>
+    </div>
+  ) : (
     <div className="chat-container">
       <header className="chat-header">
         <h4>FunChat</h4>

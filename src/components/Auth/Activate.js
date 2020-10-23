@@ -22,13 +22,16 @@ const Activate = () => {
       const data = {
         activationLink,
       }
-      let response = await fetch("http://localhost:5000/activate", {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
+      let response = await fetch(
+        "https://funchat-vikas.herokuapp.com/activate",
+        {
+          method: "POST",
+          body: JSON.stringify(data),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
       response = await response.json()
       if (response.stat === "S") {
         history.push("/login")

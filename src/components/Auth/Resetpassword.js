@@ -29,13 +29,16 @@ const ResetPassword = () => {
       password,
     }
     setPassword("")
-    let response = await fetch("http://localhost:5000/reset-password", {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    let response = await fetch(
+      "https://funchat-vikas.herokuapp.com/reset-password",
+      {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
     response = await response.json()
     if (response.stat === "S") {
       setShowLoginButton(true)

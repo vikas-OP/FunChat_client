@@ -37,7 +37,7 @@ const Login = () => {
       email: "",
       password: "",
     })
-    let response = await fetch("http://localhost:5000/login", {
+    let response = await fetch("https://funchat-vikas.herokuapp.com/login", {
       method: "POST",
       body: JSON.stringify(data),
       headers: {

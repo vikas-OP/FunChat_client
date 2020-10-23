@@ -10,14 +10,17 @@ const EditUser = ({ user, logOut }) => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     const data = { userName }
-    let response = await fetch(`http://localhost:5000/api/users/${user.id}`, {
-      method: "PUT",
-      body: JSON.stringify(data),
-      headers: {
-        Authorization: localStorage.getItem("access-token"),
-        "Content-Type": "application/json",
-      },
-    })
+    let response = await fetch(
+      `https://funchat-vikas.herokuapp.com/api/users/${user.id}`,
+      {
+        method: "PUT",
+        body: JSON.stringify(data),
+        headers: {
+          Authorization: localStorage.getItem("access-token"),
+          "Content-Type": "application/json",
+        },
+      }
+    )
     response = await response.json()
     setUserMessage(response.message)
   }

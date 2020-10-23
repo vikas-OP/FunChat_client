@@ -23,14 +23,17 @@ const CreateRoom = ({ logOut }) => {
       name: "",
       accessCode: "",
     })
-    let response = await fetch("http://localhost:5000/api/rooms", {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        Authorization: localStorage.getItem("access-token"),
-        "Content-Type": "application/json",
-      },
-    })
+    let response = await fetch(
+      "https://funchat-vikas.herokuapp.com/api/rooms",
+      {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          Authorization: localStorage.getItem("access-token"),
+          "Content-Type": "application/json",
+        },
+      }
+    )
     response = await response.json()
     if (response.stat === "S") {
       history.push(`/room/${response.room.roomID}/${response.room.accessCode}`)
