@@ -1,6 +1,7 @@
 import React, { useState, useLayoutEffect, useCallback } from "react"
 import { useHistory } from "react-router-dom"
 import checkLogin from "../../common/checkLogin"
+import { Spinner } from "react-bootstrap"
 
 const WithLogin = (WrappedComponent) => {
   const WithLoginComponent = () => {
@@ -25,7 +26,12 @@ const WithLogin = (WrappedComponent) => {
     return (
       <div>
         {isLoading ? (
-          "Loading..."
+          <div
+            className="container-fluid text-white vh-100 d-flex justify-content-center align-items-center"
+            style={{ background: "#1d3557" }}
+          >
+            <Spinner animation="border" variant="danger" />
+          </div>
         ) : (
           <WrappedComponent
             user={user}
